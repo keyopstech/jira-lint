@@ -1,3 +1,5 @@
+> This is a fork of https://github.com/ClearTax/pivotal-lint
+
 # jira-lint 🧹
 
 > A light-weight lint workflow when using GitHub along with [JIRA][jira] for project management.
@@ -97,19 +99,22 @@ When a PR passes the above check, `jira-lint` will also add the issue details to
 </figure>
 
 #### Issue Status Validation
+
 Issue status is shown in the [Description](#description).
-**Why validate issue status?** 
+**Why validate issue status?**
 In some cases, one may be pushing changes for a story that is set to `Done`/`Completed` or it may not have been pulled into working backlog or current sprint.
 
- This option allows discouraging pushing to branches for stories that are set to statuses other than the ones allowed in the project; for example - you may want to only allow PRs for stories that are in `To Do`/`Planning`/`In Progress` states.
+This option allows discouraging pushing to branches for stories that are set to statuses other than the ones allowed in the project; for example - you may want to only allow PRs for stories that are in `To Do`/`Planning`/`In Progress` states.
 
 The following flags can be used to validate issue status:
+
 - `validate_issue_status`
   - If set to `true`, `jira-lint` will validate the issue status based on `allowed_issue_statuses`
 - `allowed_issue_statuses`
   - This will only be used when `validate_issue_status` is `true`. This should be a comma separated list of statuses. If the detected issue's status is not in one of the `allowed_issue_statuses` then `jira-lint` will fail the status check.
 
 **Example of invalid status**
+
   <p>:broken_heart: The detected issue is not in one of the allowed statuses :broken_heart: </p>    
       <table>
         <tr>
@@ -161,23 +166,23 @@ The following flags can be used to validate issue status:
 
 ### Options
 
-| key             | description                                                                                                                                                                                                                                                                                                        | required | default |
-| --------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | -------- | ------- |
-| `github-token`  | Token used to update PR description. `GITHUB_TOKEN` is already available [when you use GitHub actions](https://help.github.com/en/actions/automating-your-workflow-with-github-actions/authenticating-with-the-github_token#about-the-github_token-secret), so all that is required is to pass it as a param here. | true     | null    |
-| `jira-token`    | Token used to fetch Jira Issue information.  Check [below](#jira-token) for more details on how to generate the token.                                                                                                          | true     | null    |
-| `jira-base-url` | The subdomain of JIRA cloud that you use to access it. Ex: "https://your-domain.atlassian.net".                                                                                                                                                                                                                    | true     | null    |
-| `skip-branches` | A regex to ignore running `jira-lint` on certain branches, like production etc.                                                                                                                                                                                                                                    | false    | ' '     |
-| `skip-comments` | A `Boolean` if set to `true` then `jira-lint` will skip adding lint comments for PR title.                                                                                                                                                                                                                         | false    | false   |
-| `pr-threshold`  | An `Integer` based on which `jira-lint` will add a comment discouraging huge PRs.                                                                                                                                                                                                                                  | false    | 800     |
-| `validate_issue_status`  | A `Boolean` based on which `jira-lint` will validate the status of the detected jira issue                                                                                                                                                                                                              | false    | false   |
-| `allowed_issue_statuses`  | A comma separated list of allowed statuses. The detected jira issue's status will be compared against this list and if a match is not found then the status check will fail. *Note*: Requires `validate_issue_status` to be set to `true`.                                                                                        | false    | `"In Progress"` |
-
+| key                      | description                                                                                                                                                                                                                                                                                                        | required | default         |
+| ------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | -------- | --------------- |
+| `github-token`           | Token used to update PR description. `GITHUB_TOKEN` is already available [when you use GitHub actions](https://help.github.com/en/actions/automating-your-workflow-with-github-actions/authenticating-with-the-github_token#about-the-github_token-secret), so all that is required is to pass it as a param here. | true     | null            |
+| `jira-token`             | Token used to fetch Jira Issue information. Check [below](#jira-token) for more details on how to generate the token.                                                                                                                                                                                              | true     | null            |
+| `jira-base-url`          | The subdomain of JIRA cloud that you use to access it. Ex: "https://your-domain.atlassian.net".                                                                                                                                                                                                                    | true     | null            |
+| `skip-branches`          | A regex to ignore running `jira-lint` on certain branches, like production etc.                                                                                                                                                                                                                                    | false    | ' '             |
+| `skip-comments`          | A `Boolean` if set to `true` then `jira-lint` will skip adding lint comments for PR title.                                                                                                                                                                                                                         | false    | false           |
+| `pr-threshold`           | An `Integer` based on which `jira-lint` will add a comment discouraging huge PRs.                                                                                                                                                                                                                                  | false    | 800             |
+| `validate_issue_status`  | A `Boolean` based on which `jira-lint` will validate the status of the detected jira issue                                                                                                                                                                                                                         | false    | false           |
+| `allowed_issue_statuses` | A comma separated list of allowed statuses. The detected jira issue's status will be compared against this list and if a match is not found then the status check will fail. _Note_: Requires `validate_issue_status` to be set to `true`.                                                                         | false    | `"In Progress"` |
 
 ### `jira-token`
 
 Since tokens are private, we suggest adding them as [GitHub secrets](https://help.github.com/en/actions/automating-your-workflow-with-github-actions/creating-and-using-encrypted-secrets).
 
 The Jira token is used to fetch issue information via the Jira REST API. To get the token:-
+
 1. Generate an [API token via JIRA](https://confluence.atlassian.com/cloud/api-tokens-938839638.html)
 2. Create the encoded token in the format of `base64Encode(<username>:<api_token>)`.
    For example, if the username is `ci@example.com` and the token is `954c38744be9407ab6fb`, then `ci@example.com:954c38744be9407ab6fb` needs to be base64 encoded to form `Y2lAZXhhbXBsZS5jb206OTU0YzM4NzQ0YmU5NDA3YWI2ZmI=`
@@ -236,6 +241,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
 
 <!-- markdownlint-enable -->
 <!-- prettier-ignore-end -->
+
 <!-- ALL-CONTRIBUTORS-LIST:END -->
 
 This project follows the [all-contributors](https://github.com/all-contributors/all-contributors) specification. Contributions of any kind welcome!
