@@ -32,7 +32,12 @@ inputs:
       A comma separated list of acceptable Jira issue statuses. You must provide a value for this if validate_issue_status is set to true
       Requires validate_issue_status to be set to true.
     required: false
-    default: "In Progress"
+    default: 'In Progress'
+  can_merge_branch_if_status:
+    description: |
+      A given status which will check against the current related issue status to decide whether the branch can be merged ot not.
+    required: false
+    default: 'N/A'
 
 runs:
   using: 'node12'

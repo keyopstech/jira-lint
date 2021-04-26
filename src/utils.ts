@@ -348,6 +348,11 @@ export const isIssueStatusValid = (
   return allowedIssueStatuses.includes(details.status);
 };
 
+/** Check if jira issue status is equal to a certain keyword so that the PR can be merged. */
+export const canThisBranchBeMerged = (currentIssueStatus: string, expectedIssueStatus: string): boolean => {
+  return currentIssueStatus === expectedIssueStatus;
+};
+
 /** Get the comment body for very huge PR. */
 export const getInvalidIssueStatusComment = (
   /** Number of additions. */
