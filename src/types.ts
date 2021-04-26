@@ -121,7 +121,6 @@ export interface JIRALintActionInputs {
   PR_THRESHOLD: number;
   VALIDATE_ISSUE_STATUS: boolean;
   ALLOWED_ISSUE_STATUSES: string;
-  CAN_MERGE_BRANCH_IF_STATUS: string;
 }
 
 export interface JIRAClient {

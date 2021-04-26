@@ -19,7 +19,6 @@ import {
   updatePrDetails,
   isIssueStatusValid,
   getInvalidIssueStatusComment,
-  canThisBranchBeMerged,
 } from './utils';
 import { PullRequestParams, JIRADetails, JIRALintActionInputs } from './types';
 import { DEFAULT_PR_ADDITIONS_THRESHOLD } from './constants';
@@ -33,7 +32,6 @@ const getInputs = (): JIRALintActionInputs => {
   const PR_THRESHOLD = parseInt(core.getInput('pr-threshold', { required: false }), 10);
   const VALIDATE_ISSUE_STATUS: boolean = core.getInput('validate_issue_status', { required: false }) === 'true';
   const ALLOWED_ISSUE_STATUSES: string = core.getInput('allowed_issue_statuses');
-  const CAN_MERGE_BRANCH_IF_STATUS: string = core.getInput('can_merge_branch_if_status', { required: false });
 
   return {
     JIRA_TOKEN,
@@ -44,7 +42,6 @@ const getInputs = (): JIRALintActionInputs => {
     JIRA_BASE_URL: JIRA_BASE_URL.endsWith('/') ? JIRA_BASE_URL.replace(/\/$/, '') : JIRA_BASE_URL,
     VALIDATE_ISSUE_STATUS,
     ALLOWED_ISSUE_STATUSES,
-    CAN_MERGE_BRANCH_IF_STATUS,
   };
 };
 
@@ -59,7 +56,6 @@ async function run(): Promise<void> {
       PR_THRESHOLD,
       VALIDATE_ISSUE_STATUS,
       ALLOWED_ISSUE_STATUSES,
-      CAN_MERGE_BRANCH_IF_STATUS,
     } = getInputs();
 
     const defaultAdditionsCount = 800;
@@ -156,11 +152,6 @@ async function run(): Promise<void> {
         await addComment(client, invalidIssueStatusComment);
 
         core.setFailed('The found jira issue is not in acceptable statuses');
-        process.exit(1);
-      }
-
-      if (Boolean(CAN_MERGE_BRANCH_IF_STATUS) && !canThisBranchBeMerged(details?.status, CAN_MERGE_BRANCH_IF_STATUS)) {
-        core.setFailed('This issue will need to at least reach the following status to be able to get merged');
         process.exit(1);
       }
 
