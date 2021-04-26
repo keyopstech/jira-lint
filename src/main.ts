@@ -133,10 +133,12 @@ async function run(): Promise<void> {
     const { getTicketDetails } = getJIRAClient(JIRA_BASE_URL, JIRA_TOKEN);
     const details: JIRADetails = await getTicketDetails(issueKey);
     if (details.key) {
-      // const podLabel = details?.project?.name || '';
+      const podLabel = details?.project?.name || '';
       const hotfixLabel: string = getHotfixLabel(baseBranch);
       const typeLabel: string = details?.type?.name || '';
       const labels: string[] = [hotfixLabel, typeLabel].filter(isNotBlank);
+      console.log('Podlabels -> ', JSON.stringify(podLabel));
+      console.log('TypeLabes -> ', JSON.stringify(typeLabel));
       console.log('Adding lables -> ', labels);
 
       await addLabels(client, {
